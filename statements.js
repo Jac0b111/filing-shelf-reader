@@ -2,7 +2,7 @@ const statementNames={income:'利润表',balance:'资产负债表',cash:'现金�
 function showStatements(host,p,kind=p.section){
  const c=companies[p.id],periods=window.reportData[p.id]?.p||[];
  if(!periods.length){host.textContent='暂无报表数据，可查阅下方披露文件。';return;}
- if(!c.numeric){host.innerHTML='<p class="info">已收录该公司的报告期目录。请在下方按披露日期打开财报原文。</p>';return;}
+ if(!c.numeric){host.innerHTML='<details class="details"><summary>已收录报告期（'+periods.length+'）</summary>'+periods.map(row=>'<div class="doc">'+esc(row[2])+' · '+esc(row[0])+' '+esc(row[3])+'</div>').join('')+'</details><p class="info">这些期间尚无可公开展示的结构化数字，可在下方打开披露原文。</p>';return;}
  const title=statementNames[kind]||'主要指标';
  const selected=p.compare?[periods[p.a],periods[p.b]]:periods;
  const columns=selected.map(period=>({period,state:'idle',lines:[],unit:''}));

@@ -20,7 +20,15 @@ function load(c){
   if(!loading.has(c.b))loading.set(c.b,new Promise((resolve,reject)=>{
     const script=document.createElement('script');
     script.src='data/'+c.b+'.js?v='+version;
-    script.onload=resolve;
+    script.onload=()=>{
+      resolve();
+      if('serviceWorker' in navigator && !navigator.serviceWorker.controller){
+        navigator.serviceWorker.ready.then(async()=>{
+          if(!navigator.serviceWorker.controller)await new Promise(done=>navigator.serviceWorker.addEventListener('controllerchange',done,{once:true}));
+          await fetch(script.src);
+        }).catch(()=>{});
+      }
+    };
     script.onerror=()=>{loading.delete(c.b);script.remove();reject(new Error('本地数据未能打开，请重试'));};
     document.head.append(script);
   }));
@@ -78,6 +86,7 @@ function renderNumbers(p){
   showStatements(host,p,p.view==='read'?p.section:'overview');
 }
 function originalSearch(c){
+  if(c.m==='HK')return 'https://www1.hkexnews.hk/search/titlesearch.xhtml?lang=zh';
   if(c.m==='US')return 'https://www.sec.gov/edgar/browse/?CIK='+encodeURIComponent(c.ref||c.c)+'&owner=exclude';
   return c.ref?'https://www.cninfo.com.cn/new/disclosure/stock?stockCode='+encodeURIComponent(c.c)+'&orgId='+encodeURIComponent(c.ref)+'&market='+(c.m==='HK'?'hke':c.c.startsWith('6')?'sse':c.c.startsWith('92')?'bse':'szse'):'https://www.cninfo.com.cn/new/fulltextSearch?keyWord='+encodeURIComponent(c.c);
 }
@@ -122,7 +131,7 @@ async function paint(p){
     const match=c.m==='A' && d[2].match(/^https:\/\/data\.eastmoney\.com\/notices\/detail\/\d+\/(AN\d+)\.html$/);
     return match?'https://pdf.dfcfw.com/pdf/H2_'+match[1]+'_1.pdf':d[2];
   };
-  p.node.querySelector('.documents').innerHTML='<details class="details" '+(!c.numeric?'open':'')+'><summary>历年披露文件（'+forms.length+'）</summary>'+forms.map(d=>'<a class="doc" rel="noopener noreferrer" target="_blank" href="'+esc(direct(d))+'">'+esc(d[1])+'<br><small>'+esc(d[0])+'</small></a>').join('')+'</details><p class="info">财报原文及结构化数值的覆盖因公司和报告期而异。<a href="sources.html">查看来源与统计</a></p>';
+  p.node.querySelector('.documents').innerHTML='<details class="details" '+(!c.numeric?'open':'')+'><summary>历年披露文件（'+forms.length+'）</summary>'+forms.map(d=>'<a class="doc" rel="noopener noreferrer" target="_blank" href="'+esc(direct(d))+'">'+esc(d[1])+'<br><small>'+esc(d[0])+'</small></a>').join('')+'</details><p class="info"><a rel="noopener noreferrer" target="_blank" href="'+esc(originalSearch(c))+'">查询官方披露</a> · <a href="sources.html">查看来源与统计</a></p>';
 
 }
 function openReport(p,id,view='read',section='overview',restore=false){

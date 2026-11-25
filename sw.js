@@ -1,6 +1,6 @@
 const ownScope = self.registration.scope;
 const prefix = 'filing-shelf-' + new URL(ownScope).pathname + '-';
-const version = prefix + '0d661cee789a4171';
+const version = prefix + '89dd196dc0f74112';
 const personal = 'filing-personal-' + 'ca4f545521f707b841057a90c05b2cb12ab58207013bc9f7789ed405c4ea45c2';
 const files = ['./','./index.html','./catalog.js','./art.js','./numbers.js','./reader.js','./reader.css','./ios.css','./statements.js','./install.js','./icon.png','./icon-192.png','./icon-512.png','./manifest.webmanifest','./library.html','./library-meta.json','./library.js','./info.css','./sources.html'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(version).then(cache=>cache.addAll(files)).then(()=>self.skipWaiting())));
