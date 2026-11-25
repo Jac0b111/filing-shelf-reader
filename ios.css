@@ -126,3 +126,17 @@ button:active:not(:disabled) {transform:scale(.975)}
   border-inline-start:3px solid var(--green);padding-inline-start:7px;
 }
 .shelf-app .figures .line-detail th:first-child {padding-inline-start:1.45rem;color:var(--muted);font-weight:400}
+
+.shelf-app .period-source {display:inline-block;padding:6px 0;color:var(--green);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:760px){
+ .shelf-app .statement-grid:not(.pair-grid){width:var(--phone-width)!important}
+ .shelf-app .statement-grid:not(.pair-grid) col:first-child{width:var(--phone-label)!important}
+ .shelf-app .figures thead th{white-space:normal;overflow-wrap:anywhere}
+ .shelf-app .figures th,.shelf-app .figures td{padding-inline:5px}
+}
+
+.issuer-original{margin:8px 0;padding:8px;border:1px solid var(--rule);border-radius:12px}
+.issuer-original select,.issuer-original button{font-size:.85rem}
+.issuer-original output{display:block;font-size:.8rem;color:var(--muted)}
+.issuer-original canvas{width:100%;height:auto}
+.pdf-controls button{padding:8px 12px;color:var(--green)}

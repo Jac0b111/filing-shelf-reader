@@ -85,6 +85,11 @@ function renderNumbers(p){
   const host=p.node.querySelector('.numbers');
   showStatements(host,p,p.view==='read'?p.section:'overview');
 }
+function filingLink(c,d){
+    const match=c.m==='A' && d[2].match(/^https:\/\/data\.eastmoney\.com\/notices\/detail\/\d+\/(AN\d+)\.html$/);
+    return match?'https://pdf.dfcfw.com/pdf/H2_'+match[1]+'_1.pdf':d[2];
+}
+
 function originalSearch(c){
   if(c.m==='HK')return 'https://www1.hkexnews.hk/search/titlesearch.xhtml?lang=zh';
   if(c.m==='US')return 'https://www.sec.gov/edgar/browse/?CIK='+encodeURIComponent(c.ref||c.c)+'&owner=exclude';
@@ -127,11 +132,7 @@ async function paint(p){
   if(!panel.isConnected)return;
   renderNumbers(p);
   const forms=window.reportData[key]?.d||[];
-  const direct=d=>{
-    const match=c.m==='A' && d[2].match(/^https:\/\/data\.eastmoney\.com\/notices\/detail\/\d+\/(AN\d+)\.html$/);
-    return match?'https://pdf.dfcfw.com/pdf/H2_'+match[1]+'_1.pdf':d[2];
-  };
-  p.node.querySelector('.documents').innerHTML='<details class="details" '+(!c.numeric?'open':'')+'><summary>历年披露文件（'+forms.length+'）</summary>'+forms.map(d=>'<a class="doc" rel="noopener noreferrer" target="_blank" href="'+esc(direct(d))+'">'+esc(d[1])+'<br><small>'+esc(d[0])+'</small></a>').join('')+'</details><p class="info"><a rel="noopener noreferrer" target="_blank" href="'+esc(originalSearch(c))+'">查询官方披露</a> · <a href="sources.html">查看来源与统计</a></p>';
+  p.node.querySelector('.documents').innerHTML='<details class="details" '+(!c.numeric?'open':'')+'><summary>历年披露文件（'+forms.length+'）</summary>'+forms.map(d=>'<a class="doc" rel="noopener noreferrer" target="_blank" href="'+esc(filingLink(c,d))+'">'+esc(d[1])+'<br><small>'+esc(d[0])+'</small></a>').join('')+'</details><p class="info"><a rel="noopener noreferrer" target="_blank" href="'+esc(originalSearch(c))+'">查询官方披露</a> · <a href="sources.html">查看来源与统计</a></p>';
 
 }
 function openReport(p,id,view='read',section='overview',restore=false){
