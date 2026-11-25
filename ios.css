@@ -1,0 +1,128 @@
+/* Reading surfaces stay opaque; only navigation floats above the page. */
+:root {
+  color-scheme: light dark;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", system-ui, sans-serif;
+  --paper: #faf9f5; --board: #e7e9e2; --ink: #1c2822; --muted: #59655e;
+  --green: #225747; --wash: #eceee7; --white: #fffefa; --rule: #d4d9cf;
+  --glass: rgba(250,250,246,.85); --rim: rgba(255,255,255,.85);
+  --selection: #dce8df; --tint: #e9eee7; --nav-shadow: 0 5px 20px #1f35211a,0 0 0 1px #273b2c15;
+}
+body {font-family:var(--sans)}
+button,select,summary {touch-action:manipulation}
+button,select,summary,a { -webkit-tap-highlight-color:transparent }
+button {transition:background-color .18s,color .18s,transform .16s ease-out}
+button:active:not(:disabled) {transform:scale(.975)}
+:focus-visible {outline:2px solid var(--green);outline-offset:-2px}
+.shelf-app .device {border-radius:24px}
+.shelf-app .content {overscroll-behavior-y:contain;scroll-padding-bottom:6rem}
+.shelf-app .inner {padding-bottom:calc(6.3rem + env(safe-area-inset-bottom))}
+.shelf-app .page-title {font-size:clamp(1.9rem,5vw,2.35rem);line-height:1.16}
+.shelf-app .meta {font-size:.77rem}
+.shelf-app .hero,.shelf-app .folio,.sample-page .cover {border-radius:17px}
+.shelf-app .hero,.sample-page .cover {color:#faf9f5}
+.shelf-app .search {min-height:46px;background:var(--wash);border:1px solid transparent;border-radius:14px}
+.shelf-app .search input {font-size:1rem;color:var(--ink)}
+.shelf-app .search:focus-within {border-color:var(--green)}
+.shelf-app .tabs,.sample-page .modes {background:var(--wash);border-radius:14px;padding:3px;gap:2px}
+.shelf-app .chip {flex:1;min-height:44px;border-radius:11px;font-size:.84rem}
+.shelf-app .chip[aria-pressed=true],.sample-page .modes button[aria-pressed=true] {background:var(--white);color:var(--green);font-weight:650;box-shadow:0 1px 4px #17271a20}
+.shelf-app .row {min-height:72px}
+.shelf-app .filter-button,.shelf-app .primary,.shelf-app .secondary,.shelf-app .periods select {border-radius:14px;min-height:44px}
+.shelf-app .filter-button {border-radius:100px;padding-inline:15px}
+.shelf-app .primary {color:#fff;background:#225747}
+.shelf-app .report-back,.shelf-app .source,.shelf-app .details summary {min-height:44px}
+.shelf-app .file-head {margin:10px 0 4px;gap:8px}
+.shelf-app .file-head .source {font-size:.8rem}
+.shelf-app .details summary {align-content:center;cursor:pointer;font-weight:550}
+.shelf-app .read-actions {padding-top:0}
+.shelf-app .periods {margin:6px 0 12px}
+.shelf-app .periods select {width:100%;font:inherit;font-size:1rem}
+.shelf-app .figures {margin:6px 0 10px;background:var(--white);border:1px solid var(--rule);border-radius:14px;overscroll-behavior-x:contain}
+.shelf-app .figures table {font-size:.85rem}
+.shelf-app .statement-grid {table-layout:fixed;min-width:100%}
+.shelf-app .figures th,.shelf-app .figures td {padding:11px 9px}
+.shelf-app .figures tbody tr:last-child>* {border-bottom:0}
+.shelf-app .figures thead th {background:var(--wash);color:var(--muted);font-size:.72rem}
+.shelf-app .figures thead b {color:var(--ink);font-size:.83rem}
+.shelf-app .figures th:first-child {background:var(--paper);box-shadow:1px 0 var(--rule);z-index:1}
+.shelf-app .figures thead th:first-child {background:var(--wash)}
+.column-status {display:block;color:var(--muted)}
+.column-status .source {margin-left:auto}
+.shelf-app .foot-nav {
+  display:grid;grid-template-columns:repeat(var(--count),minmax(0,1fr));isolation:isolate;
+  position:absolute;z-index:3;bottom:max(12px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
+  width:calc(100% - 26px);max-width:32rem;height:auto;min-height:56px;margin:0;padding:4px;
+  border:1px solid var(--rim);border-radius:32px;background:var(--paper);box-shadow:var(--nav-shadow);
+}
+.shelf-app .foot-nav::before {
+  content:"";position:absolute;inset-block:4px;left:4px;width:calc((100% - 8px) / var(--count));
+  background:var(--selection);border-radius:28px;z-index:-1;transform:translateX(calc(100% * var(--active)));
+  transition:transform .29s cubic-bezier(.22,.82,.24,1);
+}
+.shelf-app .nav-button {min-height:46px;height:auto;min-width:0;padding:2px;line-height:1.2}
+.shelf-app .navglyph,.shelf-app .nav-button.active .navglyph {height:auto;border:0}
+.shelf-app .report-nav .navglyph {min-height:42px;gap:3px;font-size:.73rem}
+.shelf-app .nav-button.active {color:var(--green)}
+.sample-page footer {border:0;border-radius:30px;margin:4px 12px max(8px,env(safe-area-inset-bottom));padding:3px 6px;box-shadow:var(--nav-shadow)}
+.sample-page footer .tabs button {border-radius:24px;min-height:46px}
+.sample-page footer .tabs button[aria-pressed=true] {background:var(--selection)}
+.sample-page footer .tabs .tab-face {color:inherit;background:transparent}
+.sample-page .modes button,.sample-page .paging button,.sample-page .period-trigger,.sample-page .contents-trigger,.sample-page .dialog-head button {min-height:44px;min-width:44px}
+.sample-page dialog {border-radius:24px 24px 0 0}
+.source-page body {background:var(--paper);color:var(--ink);padding-top:max(2rem,env(safe-area-inset-top));padding-bottom:max(2rem,env(safe-area-inset-bottom))}
+.source-page a,.source-page small {color:var(--green)}
+.source-page body>a:first-child {display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))) {
+  .shelf-app .foot-nav,.sample-page footer {background:var(--glass);-webkit-backdrop-filter:blur(20px) saturate(1.25);backdrop-filter:blur(20px) saturate(1.25)}
+}
+@media(max-width:760px){
+  .shelf-app .device {border-radius:0}
+  .shelf-app .sheet {max-width:100%;padding-inline:env(safe-area-inset-left) env(safe-area-inset-right)}
+}
+@media(prefers-color-scheme:dark){
+  :root {--paper:#19231e;--board:#111914;--white:#202d25;--wash:#28362e;--ink:#eef2e9;--muted:#b1beb3;--green:#a3d7b9;--rule:#3d4c41;--glass:rgba(35,48,40,.85);--rim:#526257;--selection:#354e40;--tint:#293b30;--nav-shadow:0 5px 20px #0004}
+  .shelf-app .hero .ghost {background:#264f42}
+  .shelf-app .hero .book,.shelf-app .book.theme-tencent {color:#254f40}
+  .shelf-app .folio.theme-apple,.shelf-app .folio.theme-maotai,.shelf-app .folio.theme-tencent {color:#26342b}
+  .source-page td,.source-page th {border-color:var(--rule)}
+}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
+  .shelf-app .foot-nav,.sample-page footer {background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;border:1px solid var(--muted)}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  button:active:not(:disabled) {transform:none}
+}
+.shelf-app .pair-grid td {white-space:normal;overflow-wrap:anywhere}
+.shelf-app .pair-grid thead th {white-space:normal}
+@media(max-width:380px){
+  .shelf-app .pair-grid td,.shelf-app .pair-grid th {padding-inline:5px}
+  .shelf-app .pair-grid td {font-size:.79rem}
+}
+
+/* Report hierarchy: section bands, ruled subtotals, highlighted results and indented components. */
+:root {
+  --report-section:color-mix(in srgb,var(--green) 7%,var(--paper));
+  --report-result:color-mix(in srgb,var(--green) 12%,var(--paper));
+  --report-subtotal:color-mix(in srgb,var(--ink) 4%,var(--paper));
+}
+.shelf-app .figures .line-group>*,.shelf-app .figures .line-group th:first-child,
+.sample-page .matrix tr.group>* {
+  background:var(--report-section);color:var(--green);font-weight:700;
+  padding-block:9px;border-top:5px solid var(--white);border-bottom:0;
+}
+.shelf-app .figures .line-group th:first-child {box-shadow:none}
+.shelf-app .figures .line-total>*,.shelf-app .figures .line-total th:first-child,
+.sample-page .matrix tr.total>* {
+  background:var(--report-subtotal);color:var(--ink);font-weight:650;
+  border-top:1px solid var(--rule);
+}
+.shelf-app .figures .line-key>*,.shelf-app .figures .line-key th:first-child,
+.sample-page .matrix tr.key>* {
+  background:var(--report-result);color:var(--green);font-weight:700;
+  border-top:1px solid color-mix(in srgb,var(--green) 36%,var(--paper));
+}
+.shelf-app .figures .line-key th:first-child,.sample-page .matrix tr.key th:first-child {
+  border-inline-start:3px solid var(--green);padding-inline-start:7px;
+}
+.shelf-app .figures .line-detail th:first-child {padding-inline-start:1.45rem;color:var(--muted);font-weight:400}
